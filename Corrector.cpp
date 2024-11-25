@@ -62,8 +62,8 @@ void Leerarchivo(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
 				{
 					iEstadisticas[i]++;
 					existe = 1;
-					i = iNumElementos;
-				}
+					i= iNumElementos;
+				}	
 
 			}
 			if (!existe && iNumElementos < NUMPALABRAS)
@@ -75,17 +75,17 @@ void Leerarchivo(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
 		}
 	}
 	fclose(archivo);
-
-}
-void Limpiarpalabra(char* palabra)
+		
+}	
+void Limpiarpalabra (char* palabra)
 {
 	int j = 0;
 	for (int i = 0; palabra[i]; i++)
 	{
 		if (isalpha(palabra[i]) || strchr("áéíóú", palabra[i]))
 		{
-			palabra[j++] = tolower(palabra[i]);
-		}
+			palabra[j++]= tolower(palabra[i]);
+		}		
 	}
 	palabra[j] = '\0';
 
@@ -95,12 +95,12 @@ void limpiarYNormalizar(char* palabra, const char* simbolos)
 	int indiceValido = 0; // Índice para sobrescribir caracteres válidos
 
 	// Recorrer la cadena y procesar cada carácter
-	for (int i = 0; palabra[i] != '\0'; i++)
+	for (int i = 0; palabra[i] != '\0'; i++) 
 	{
 		int esValido = 1;
 
 		// Comprobar si el carácter está en la lista de símbolos
-		for (int j = 0; simbolos[j] != '\0'; j++)
+		for (int j = 0; simbolos[j] != '\0'; j++) 
 		{
 			if (palabra[i] == simbolos[j])
 			{
@@ -122,25 +122,27 @@ void limpiarYNormalizar(char* palabra, const char* simbolos)
 void OrdenarDiccionario(char szPalabras[][TAMTOKEN], int iEstadisticas[], int iNumElementos)
 {
 	for (int i = 0; i < iNumElementos - 1; i++)
-	{
+	{	
 		for (int j = 0; j < iNumElementos - i - 1; j++)
 		{
 			if (strcmp(szPalabras[j], szPalabras[j + 1]) > 0)
 			{
 				char temp[TAMTOKEN];
-
+				
 				strcpy_s(temp, TAMTOKEN, szPalabras[j]);
 				strcpy_s(szPalabras[j], TAMTOKEN, szPalabras[j + 1]);
 				strcpy_s(szPalabras[j + 1], TAMTOKEN, temp);
 				int tempFreq = iEstadisticas[j];
-				iEstadisticas[j] = iEstadisticas[j + 1];
-				iEstadisticas[j + 1] = tempFreq;
+				iEstadisticas [j] = iEstadisticas[j + 1];
+				iEstadisticas [j + 1] = tempFreq;
 
 			}
 		}
 	}
 
 }
+
+
 /*****************************************************************************************************************
 	ListaCandidatas: Esta funcion recupera desde el diccionario las palabras validas y su peso
 	Regresa las palabras ordenadas por su peso
@@ -154,7 +156,7 @@ void OrdenarDiccionario(char szPalabras[][TAMTOKEN], int iEstadisticas[], int iN
 	int &	iNumLista)							//Numero de elementos en la szListaFinal
 ******************************************************************************************************************/
 
-void	ListaCandidatas(
+void	ListaCandidatas		(
 	char	szPalabrasSugeridas[][TAMTOKEN],	//Lista de palabras clonadas
 	int		iNumSugeridas,						//Lista de palabras clonadas
 	char	szPalabras[][TAMTOKEN],				//Lista de palabras del diccionario
@@ -162,7 +164,7 @@ void	ListaCandidatas(
 	int		iNumElementos,						//Numero de elementos en el diccionario
 	char	szListaFinal[][TAMTOKEN],			//Lista final de palabras a sugerir
 	int		iPeso[],							//Peso de las palabras en la lista final
-	int& iNumLista)							//Numero de elementos en la szListaFinal
+	int &	iNumLista)							//Numero de elementos en la szListaFinal
 
 {
 	int iEstadisticas2[100];
@@ -182,7 +184,7 @@ void	ListaCandidatas(
 	Eliminar(szListaFinal, iNumLista, iEstadisticas2);
 	Ordenar(szListaFinal, iNumLista, iPeso, 1);
 }
-void Eliminar(char szPalabras[][TAMTOKEN], int& elementos, int iEstadisticas[])
+void Eliminar(char szPalabras[][TAMTOKEN], int &elementos, int iEstadisticas[])
 {
 	int i = 0;
 	while (i < elementos)
@@ -190,14 +192,14 @@ void Eliminar(char szPalabras[][TAMTOKEN], int& elementos, int iEstadisticas[])
 		int j = i + 1;
 		while (j < elementos)
 		{
-			if (strcmp(szPalabras[i], szPalabras[j]) == 0)
+			if (strcmp(szPalabras[i],szPalabras[j]) == 0)
 			{
 				iEstadisticas[i] += iEstadisticas[j];
 				elementos--;
-				for (int k = j; k < elementos - 1; k++)
+				for (int k = j; k < elementos - 1 ; k++)
 				{
-					strcpy_s(szPalabras[k], TAMTOKEN, szPalabras[k + 1]);
-					iEstadisticas[k] = iEstadisticas[k + 1];
+					strcpy_s(szPalabras[k], TAMTOKEN, szPalabras[k+1]);
+					iEstadisticas[k] = iEstadisticas[k+1];
 				}
 				elementos--;
 			}
@@ -206,7 +208,7 @@ void Eliminar(char szPalabras[][TAMTOKEN], int& elementos, int iEstadisticas[])
 				j++;
 			}
 		}
-		i++;
+		i++; 
 	}
 
 }
@@ -214,7 +216,7 @@ void Ordenar(char szPalabras[][TAMTOKEN], int elementos, int iEstadisticas[], in
 {
 	int i, j, min_idx;
 	char aux[TAMTOKEN];
-	int auxNUM;
+	int auxNUM; 
 	if (opcion == 0)
 	{
 		for (i = 0; i < elementos - 1; i++)
@@ -234,7 +236,7 @@ void Ordenar(char szPalabras[][TAMTOKEN], int elementos, int iEstadisticas[], in
 			auxNUM = iEstadisticas[min_idx];
 			iEstadisticas[min_idx] = iEstadisticas[i];
 			iEstadisticas[i] = auxNUM;
-		}
+		}	
 	}
 	else
 	{
@@ -253,7 +255,7 @@ void Ordenar(char szPalabras[][TAMTOKEN], int elementos, int iEstadisticas[], in
 				}
 				auxNUM = iEstadisticas[min_idx];
 				iEstadisticas[min_idx] = iEstadisticas[i];
-				iEstadisticas[i] = auxNUM;
+				iEstadisticas[i] = auxNUM; 
 
 				strcpy_s(aux, TAMTOKEN, szPalabras[min_idx]);
 				strcpy_s(szPalabras[min_idx], TAMTOKEN, szPalabras[i]);
@@ -271,9 +273,9 @@ void Ordenar(char szPalabras[][TAMTOKEN], int elementos, int iEstadisticas[], in
 	int &	iNumSugeridas)						//Numero de elementos en la lista
 ******************************************************************************************************************/
 void	ClonaPalabras(
-	char* szPalabraLeida,						// Palabra a clonar
+	char *	szPalabraLeida,						// Palabra a clonar
 	char	szPalabrasSugeridas[][TAMTOKEN], 	//Lista de palabras clonadas
-	int& iNumSugeridas)						//Numero de elementos en la lista
+	int &	iNumSugeridas)						//Numero de elementos en la lista
 {
 	int longitud = strlen(szPalabraLeida);
 	int posicion = 0;
@@ -327,7 +329,7 @@ void	ClonaPalabras(
 	for (int j = 1; j < longitud; j++)
 	{
 		strcpy_s(szPalabraLeidaCopia2, szPalabraLeida);
-		for (int i = 0; i < longitud - j; i++)
+		for (int i = 0; i < longitud - j ; i++)
 		{
 			char temp = szPalabraLeidaCopia2[i + j];
 			szPalabraLeidaCopia2[i + j] = szPalabraLeidaCopia2[i + (j - 1)];
@@ -371,7 +373,7 @@ void	ClonaPalabras(
 			}
 			strncpy_s(auxPalabra1, szPalabraLeida, i);
 			auxPalabra1[i] = letras[j];
-			strcpy_s(auxPalabra1 + i + 1, TAMTOKEN - i - 1, szPalabraLeida + i);
+			strcpy_s(auxPalabra1 + i + 1,TAMTOKEN- i - 1,  szPalabraLeida + i);
 			jPalabra = revertir(posicion, auxPalabra1, szPalabrasSugeridas, jPalabra, longitud);
 		}
 	}
@@ -426,7 +428,5 @@ int revertir(int posicion, char szPalabraLeidaCopia2[TAMTOKEN], char szPalabrasS
 		strcpy_s(szPalabrasSugeridas[jPalabra], szPalabraLeidaCopia2);
 		jPalabra++;
 	}
-	return jPalabra;
+	return jPalabra;	
 }
-
-
