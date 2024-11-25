@@ -119,4 +119,26 @@ void limpiarYNormalizar(char* palabra, const char* simbolos)
 	// Terminar la cadena con un carácter nulo
 	palabra[indiceValido] = '\0';
 }
+void OrdenarDiccionario(char szPalabras[][TAMTOKEN], int iEstadisticas[], int iNumElementos)
+{
+	for (int i = 0; i < iNumElementos - 1; i++)
+	{
+		for (int j = 0; j < iNumElementos - i - 1; j++)
+		{
+			if (strcmp(szPalabras[j], szPalabras[j + 1]) > 0)
+			{
+				char temp[TAMTOKEN];
+
+				strcpy_s(temp, TAMTOKEN, szPalabras[j]);
+				strcpy_s(szPalabras[j], TAMTOKEN, szPalabras[j + 1]);
+				strcpy_s(szPalabras[j + 1], TAMTOKEN, temp);
+				int tempFreq = iEstadisticas[j];
+				iEstadisticas[j] = iEstadisticas[j + 1];
+				iEstadisticas[j + 1] = tempFreq;
+
+			}
+		}
+	}
+
+}
 
