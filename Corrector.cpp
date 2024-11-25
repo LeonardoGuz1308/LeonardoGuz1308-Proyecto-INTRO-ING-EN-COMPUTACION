@@ -378,4 +378,55 @@ void	ClonaPalabras(
 	iNumSugeridas = jPalabra + 1;
 
 }
+int revertir(int posicion, char szPalabraLeidaCopia2[TAMTOKEN], char szPalabrasSugeridas[][TAMTOKEN], int jPalabra, int longitud)
+{
+	int posicion2 = -1;
+	int apuntador = 0;
+	char auxPalabra1[TAMTOKEN];
+	char auxPalabra2[TAMTOKEN];
+	char letrasEspeciales[] = "ραινσϊ";
+
+	for (int i = 0; i < TAMTOKEN; i++)
+	{
+		auxPalabra1[i] = '\0';
+		auxPalabra2[i] = '\0';
+	}
+	if (posicion != 0)
+	{
+		for (int k = 0; k < longitud; k++)
+		{
+			if (szPalabraLeidaCopia2[k] == letrasEspeciales[0])
+			{
+				posicion2 = k;
+				break;
+			}
+		}
+
+		for (int h = 0; h < posicion2; h++)
+		{
+			auxPalabra1[apuntador++] = szPalabraLeidaCopia2[h];
+
+		}
+		apuntador = 0;
+		for (int m = posicion2 + 1; m < longitud; m++)
+		{
+			auxPalabra2[apuntador++] = szPalabraLeidaCopia2[m];
+			if (posicion2 >= 0)
+			{
+				strcat_s(auxPalabra1, "ρ");
+			}
+			strcat_s(auxPalabra1, auxPalabra2);
+			strcpy_s(szPalabrasSugeridas[jPalabra], auxPalabra1);
+			jPalabra++;
+
+		}
+	}
+	else
+	{
+		strcpy_s(szPalabrasSugeridas[jPalabra], szPalabraLeidaCopia2);
+		jPalabra++;
+	}
+	return jPalabra;
+}
+
 
