@@ -77,4 +77,17 @@ void Leerarchivo(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
 	fclose(archivo);
 
 }
+void Limpiarpalabra(char* palabra)
+{
+	int j = 0;
+	for (int i = 0; palabra[i]; i++)
+	{
+		if (isalpha(palabra[i]) || strchr("αινσϊ", palabra[i]))
+		{
+			palabra[j++] = tolower(palabra[i]);
+		}
+	}
+	palabra[j] = '\0';
+
+}
 
