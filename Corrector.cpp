@@ -264,3 +264,118 @@ void Ordenar(char szPalabras[][TAMTOKEN], int elementos, int iEstadisticas[], in
 
 }
 
+/*****************************************************************************************************************
+	ClonaPalabras: toma una palabra y obtiene todas las combinaciones y permutaciones requeridas por el metodo
+	char *	szPalabraLeida,						// Palabra a clonar
+	char	szPalabrasSugeridas[][TAMTOKEN], 	//Lista de palabras clonadas
+	int &	iNumSugeridas)						//Numero de elementos en la lista
+******************************************************************************************************************/
+void	ClonaPalabras(
+	char* szPalabraLeida,						// Palabra a clonar
+	char	szPalabrasSugeridas[][TAMTOKEN], 	//Lista de palabras clonadas
+	int& iNumSugeridas)						//Numero de elementos en la lista
+{
+	int longitud = strlen(szPalabraLeida);
+	int posicion = 0;
+	int jPalabra = 0;
+	char letras[] = "abcdefghijklmnopqrstuvwxyz";
+	char letrasEspeciales[] = "ραινσϊ";
+	char szPalabraLeidaCopia[TAMTOKEN];
+	char szPalabraLeidaCopia2[TAMTOKEN];
+	char palabraFinal[TAMTOKEN];
+	char auxPalabra1[TAMTOKEN];
+	char auxPalabra2[TAMTOKEN];
+
+	for (int i = 0; i < longitud; i++)
+	{
+		for (size_t j = 0; j < strlen(letras); j++)
+		{
+			if (szPalabraLeida[i] == letrasEspeciales[0])
+			{
+				posicion = i;
+			}
+		}
+	}
+	if (posicion != 0)
+	{
+		int apuntador = 0;
+		for (int i = 0; i < longitud; i++)
+		{
+			if (szPalabraLeida[i] != letrasEspeciales[1])
+			{
+				palabraFinal[apuntador++] = szPalabraLeida[i];
+			}
+		}
+		palabraFinal[apuntador] = '\0';
+		strcpy_s(szPalabraLeida, TAMTOKEN, palabraFinal);
+		longitud--;
+	}
+
+	for (int i = 0; i < longitud; i++)
+	{
+		int apuntador = 0;
+		for (int j = 0; j < longitud; j++)
+		{
+			if (i != j)
+			{
+				palabraFinal[apuntador++] = szPalabraLeida[j];
+			}
+		}
+		palabraFinal[apuntador] = '\0';
+		jPalabra = revertir(posicion, palabraFinal, szPalabrasSugeridas, jPalabra, longitud);
+	}
+	for (int j = 1; j < longitud; j++)
+	{
+		strcpy_s(szPalabraLeidaCopia2, szPalabraLeida);
+		for (int i = 0; i < longitud - j; i++)
+		{
+			char temp = szPalabraLeidaCopia2[i + j];
+			szPalabraLeidaCopia2[i + j] = szPalabraLeidaCopia2[i + (j - 1)];
+			szPalabraLeidaCopia2[i + (j - 1)] = temp;
+			jPalabra = revertir(posicion, szPalabraLeidaCopia2, szPalabrasSugeridas, jPalabra, longitud);
+		}
+	}
+	for (int i = 0; i < longitud; i++)
+	{
+		strcpy_s(szPalabraLeidaCopia, szPalabraLeida);
+		for (size_t j = 0; j < strlen(letras); j++)
+		{
+			szPalabraLeidaCopia[i] = letras[j];
+			jPalabra = revertir(posicion, szPalabraLeidaCopia, szPalabrasSugeridas, jPalabra, longitud);
+		}
+	}
+	for (int i = 0; i < longitud; i++)
+	{
+		for (size_t j = 0; j < strlen(letrasEspeciales); j++)
+		{
+			for (int k = 0; k < TAMTOKEN; k++)
+			{
+				auxPalabra1[k] = '\0';
+				auxPalabra2[k] = '\0';
+
+			}
+			strncpy_s(auxPalabra1, szPalabraLeida, i);
+			strcpy_s(auxPalabra2, szPalabraLeida + i + 1);
+			auxPalabra1[i] = letrasEspeciales[j];
+			strcat_s(auxPalabra1, auxPalabra2);
+			jPalabra = revertir(posicion, auxPalabra1, szPalabrasSugeridas, jPalabra, longitud);
+		}
+	}
+	for (int i = 0; i <= longitud; i++)
+	{
+		for (size_t j = 0; j < strlen(letras); j++)
+		{
+			for (int k = 0; k < TAMTOKEN; k++)
+			{
+				auxPalabra1[k] = '\0';
+			}
+			strncpy_s(auxPalabra1, szPalabraLeida, i);
+			auxPalabra1[i] = letras[j];
+			strcpy_s(auxPalabra1 + i + 1, TAMTOKEN - i - 1, szPalabraLeida + i);
+			jPalabra = revertir(posicion, auxPalabra1, szPalabrasSugeridas, jPalabra, longitud);
+		}
+	}
+	iNumSugeridas = jPalabra + 1;
+
+}
+
