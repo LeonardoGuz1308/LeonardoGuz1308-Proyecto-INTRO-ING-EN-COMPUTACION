@@ -182,4 +182,32 @@ void	ListaCandidatas(
 	Eliminar(szListaFinal, iNumLista, iEstadisticas2);
 	Ordenar(szListaFinal, iNumLista, iPeso, 1);
 }
+void Eliminar(char szPalabras[][TAMTOKEN], int& elementos, int iEstadisticas[])
+{
+	int i = 0;
+	while (i < elementos)
+	{
+		int j = i + 1;
+		while (j < elementos)
+		{
+			if (strcmp(szPalabras[i], szPalabras[j]) == 0)
+			{
+				iEstadisticas[i] += iEstadisticas[j];
+				elementos--;
+				for (int k = j; k < elementos - 1; k++)
+				{
+					strcpy_s(szPalabras[k], TAMTOKEN, szPalabras[k + 1]);
+					iEstadisticas[k] = iEstadisticas[k + 1];
+				}
+				elementos--;
+			}
+			else
+			{
+				j++;
+			}
+		}
+		i++;
+	}
+
+}
 
