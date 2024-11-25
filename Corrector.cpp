@@ -210,4 +210,57 @@ void Eliminar(char szPalabras[][TAMTOKEN], int& elementos, int iEstadisticas[])
 	}
 
 }
+void Ordenar(char szPalabras[][TAMTOKEN], int elementos, int iEstadisticas[], int opcion)
+{
+	int i, j, min_idx;
+	char aux[TAMTOKEN];
+	int auxNUM;
+	if (opcion == 0)
+	{
+		for (i = 0; i < elementos - 1; i++)
+		{
+			min_idx = i;
+			for (j = i + 1; j < elementos; i++)
+			{
+				if (strcmp(szPalabras[j], szPalabras[min_idx]) < 0)
+				{
+					min_idx = j;
+				}
+			}
+			strcpy_s(aux, TAMTOKEN, szPalabras[min_idx]);
+			strcpy_s(szPalabras[min_idx], TAMTOKEN, szPalabras[i]);
+			strcpy_s(szPalabras[i], TAMTOKEN, aux);
+
+			auxNUM = iEstadisticas[min_idx];
+			iEstadisticas[min_idx] = iEstadisticas[i];
+			iEstadisticas[i] = auxNUM;
+		}
+	}
+	else
+	{
+		if (opcion == 1)
+		{
+			for (i = 0; i < elementos - 1; i++)
+			{
+				min_idx = i;
+				for (j = i + 1; j < elementos; j++)
+				{
+					if (iEstadisticas[j] < iEstadisticas[min_idx])
+					{
+						min_idx = j;
+					}
+
+				}
+				auxNUM = iEstadisticas[min_idx];
+				iEstadisticas[min_idx] = iEstadisticas[i];
+				iEstadisticas[i] = auxNUM;
+
+				strcpy_s(aux, TAMTOKEN, szPalabras[min_idx]);
+				strcpy_s(szPalabras[min_idx], TAMTOKEN, szPalabras[i]);
+				strcpy_s(szPalabras[i], TAMTOKEN, aux);
+			}
+		}
+	}
+
+}
 
