@@ -40,4 +40,41 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
 	OrdenarDiccionario   (szPalabras,iEstadisticas,iNumElementos);
 
 }
+void Leerarchivo(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[], int& iNumElementos)
+{
+	FILE* archivo;
+	fopen_s(&archivo, szNombre, "r");
+	if (!archivo)
+	{
+		printf("Archivo no se pudo abrir");
+		return;
+	}
+	char palabra[TAMTOKEN];
+	while (fscanf_s(archivo, "%s", palabra, TAMTOKEN) != EOF)
+	{
+		Limpiarpalabra(palabra);
+		if (strlen(palabra) > 0)
+		{
+			int existe = 0;
+			for (int i = 0; i < iNumElementos; i++)
+			{
+				if (strcmp(szPalabras[i], palabra) == 0)
+				{
+					iEstadisticas[i]++;
+					existe = 1;
+					i = iNumElementos;
+				}
+
+			}
+			if (!existe && iNumElementos < NUMPALABRAS)
+			{
+				strcpy_s(szPalabras[iNumElementos], TAMTOKEN, palabra);
+				iEstadisticas[iNumElementos] = 1;
+				iNumElementos++;
+			}
+		}
+	}
+	fclose(archivo);
+
+}
 
