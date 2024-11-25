@@ -90,4 +90,33 @@ void Limpiarpalabra(char* palabra)
 	palabra[j] = '\0';
 
 }
+void limpiarYNormalizar(char* palabra, const char* simbolos)
+{
+	int indiceValido = 0; // Índice para sobrescribir caracteres válidos
+
+	// Recorrer la cadena y procesar cada carácter
+	for (int i = 0; palabra[i] != '\0'; i++)
+	{
+		int esValido = 1;
+
+		// Comprobar si el carácter está en la lista de símbolos
+		for (int j = 0; simbolos[j] != '\0'; j++)
+		{
+			if (palabra[i] == simbolos[j])
+			{
+				esValido = 0;
+				break;
+			}
+		}
+
+		// Si el carácter es válido, conservarlo y convertirlo a minúscula
+		if (esValido)
+		{
+			palabra[indiceValido++] = tolower(palabra[i]);
+		}
+	}
+
+	// Terminar la cadena con un carácter nulo
+	palabra[indiceValido] = '\0';
+}
 
